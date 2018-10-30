@@ -1,0 +1,26 @@
+module boolean 
+(
+    input alufn[4],  
+    input a[16],  
+    input b[16],
+    output gate[16]  //16 bit output
+  ) 
+
+  {
+  
+  always
+   {
+    case(alufn)
+    {
+      
+      4b1000: gate = a & b; //and
+      4b1110: gate = a | b; //or
+      4b0110: gate = a ^ b; //xor
+      4b1010: gate = a;     //same comparison
+               
+      default: gate = 0;
+      
+    }       
+  }
+}
+

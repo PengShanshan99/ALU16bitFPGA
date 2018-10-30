@@ -1,0 +1,80 @@
+module mojo_top (
+    input clk,              // 50MHz clock
+    input rst_n,            // reset button (active low)
+    output led [8],         // 8 user controllable LEDs
+    input cclk,             // configuration clock, AVR ready when high
+    output spi_miso,        // AVR SPI MISO
+    input spi_ss,           // AVR SPI Slave Select
+    input spi_mosi,         // AVR SPI MOSI
+    input spi_sck,          // AVR SPI Clock
+    output spi_channel [4], // AVR general purpose pins (used by default to select ADC channel)
+    input avr_tx,           // AVR TX (FPGA RX)
+    output avr_rx,          // AVR RX (FPGA TX)
+    input avr_rx_busy,      // AVR RX buffer full
+    output io_led [3][8],   // LEDs on IO Shield
+    output io_seg [8],      // 7-segment LEDs on IO Shield
+    output io_sel [4],      // Digit select on IO Shield
+    input io_button [5],    // 5 buttons on IO Shield
+    input io_dip [3][8]     // DIP switches on IO Shield
+  ) {
+  
+  sig rst;                  // reset signal
+  alu alu1;
+  
+  .clk(clk) {
+    // The reset conditioner is used to synchronize the reset signal to the FPGA
+    // clock. This ensures the entire FPGA comes out of reset at the same time.
+    reset_conditioner reset_cond;
+    
+    .rst(rst){
+      display wow;
+      dff dataA[16];//d-flip-flop (register) to remember the input a.
+      dff dataB[16];//d-flip-flop (register) to remember the input b.
+    }
+  }
+  tester16 tester(.clk(clk), .rst(rst), .pause(io_dip[2][6]), .restarttest(io_button[1]));
+  
+  always {
+    
+    
+    reset_cond.in = ~rst_n; // input raw inverted reset signal
+    rst = reset_cond.out;   // conditioned reset
+    led = 8h00;             // turn LEDs off
+    spi_miso = bz;          // not using SPI
+    spi_channel = bzzzz;    // not using flags
+    avr_rx = bz;            // not using serial port
+    
+    io_seg = wow.seg;    // turn segments on
+    io_sel = wow.sel;  
+    
+    //display the 16-bit result on 3rd row and 2nd row leds.
+    io_led[2]=alu1.result[15:8];
+    io_led[1]=alu1.result[7:0];
+    
+    io_led[0]=io_dip[0];//first row led displays the alufn.
+    
+    wow.alufn = 6b000000;
+    wow.anotherMode = 0;
+    wow.fromTester = {8hff, 8hff, 8hff, 8hff};
+    alu1.a = 16h0000;
+    alu1.b = 16h0000;
+    alu1.alufn = 6b000000;
+    if (io_dip[0][7] == 1){//mannual testing mode
+      alu1.alufn[5:0]= io_dip[0][5:0]; // alufn is set to the first row of io shield's DIP switches
+      wow.alufn[5:0] = io_dip[0][5:0];
+      if (io_button[3] == 1){//if the left button is pressed
+      dataA.d = c{io_dip[2],io_dip[1]};//record down the 3rd and 2nd row of switches as 16-bit-input for a
+      }
+      if (io_button[4] == 1){//if the right button is pressed
+      dataB.d = c{io_dip[2],io_dip[1]};//record down the 3rd and 2nd row of switches as 16-bit-input for b.
+      }
+      alu1.a=dataA.q; 
+      alu1.b=dataB.q;
+    }
+    if (io_dip[0][6] == 1){//auto testing mode
+      wow.fromTester = tester.out;
+      wow.anotherMode = 1;
+    }
+    
+  }
+}

@@ -1,0 +1,8 @@
+INTSTYLE=pa
+INFILE=F:\Personal\Term4\ComputationStructures\1d\8bitALUgame-master\16bitALU\work\planAhead\16bitALU\16bitALU.runs\impl_1\mojo_top_0_routed.ncd
+OUTFILE=F:\Personal\Term4\ComputationStructures\1d\8bitALUgame-master\16bitALU\work\planAhead\16bitALU\16bitALU.runs\impl_1\mojo_top_0.bit
+FAMILY=Spartan6
+PART=xc6slx9-2tqg144
+WORKINGDIR=F:\Personal\Term4\ComputationStructures\1d\8bitALUgame-master\16bitALU\work\planAhead\16bitALU\16bitALU.runs\impl_1
+LICENSE=WebPack
+USER_INFO=211600040_0_0_736

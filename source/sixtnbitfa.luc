@@ -1,0 +1,113 @@
+module sixtnbitfa (
+
+    input a[16],
+    input b[16],
+    output sum[16],
+    input alufn,
+    output v,
+    output z,
+    output n
+  
+  ) {
+  
+  fa fa1;
+  fa fa2;
+  fa fa3;
+  fa fa4;
+  fa fa5;
+  fa fa6;
+  fa fa7;
+  fa fa8;
+  fa fa9;
+  fa fa10;
+  fa fa11;
+  fa fa12;
+  fa fa13;
+  fa fa14;
+  fa fa15;
+  fa fa16;
+  //}
+  sig x[16];
+  var i;
+  
+  always {
+    
+    for(i = 0; i < 16; i++){
+      x[i] = b[i] ^ alufn;
+    }
+    //x[7:0] = b[7:0]^alufn;    
+    fa1.c = alufn;
+    
+    fa1.a=a[0];
+    fa2.a=a[1];   
+    fa3.a=a[2];
+    fa4.a=a[3];
+    fa5.a=a[4];
+    fa6.a=a[5];
+    fa7.a=a[6];
+    fa8.a=a[7];
+    fa9.a=a[8];
+    fa10.a=a[9];   
+    fa11.a=a[10];
+    fa12.a=a[11];
+    fa13.a=a[12];
+    fa14.a=a[13];
+    fa15.a=a[14];
+    fa16.a=a[15];
+    
+    
+    fa1.b=x[0];
+    fa2.b=x[1];
+    fa3.b=x[2];
+    fa4.b=x[3];
+    fa5.b=x[4];
+    fa6.b=x[5];
+    fa7.b=x[6];
+    fa8.b=x[7];
+    fa9.b=x[8];
+    fa10.b=x[9];
+    fa11.b=x[10];
+    fa12.b=x[11];
+    fa13.b=x[12];
+    fa14.b=x[13];
+    fa15.b=x[14];
+    fa16.b=x[15];
+   
+    fa2.c = fa1.carryout;
+    fa3.c = fa2.carryout;
+    fa4.c = fa3.carryout;
+    fa5.c = fa4.carryout;
+    fa6.c = fa5.carryout;
+    fa7.c = fa6.carryout;
+    fa8.c = fa7.carryout;
+    fa9.c = fa8.carryout;
+    fa10.c = fa9.carryout;
+    fa11.c = fa10.carryout;
+    fa12.c = fa11.carryout;
+    fa13.c = fa12.carryout;
+    fa14.c = fa13.carryout;
+    fa15.c = fa14.carryout;
+    fa16.c = fa15.carryout;
+    
+    sum[0]=fa1.sum;
+    sum[1]=fa2.sum;
+    sum[2]=fa3.sum;        
+    sum[3]=fa4.sum;    
+    sum[4]=fa5.sum;
+    sum[5]=fa6.sum;
+    sum[6]=fa7.sum;
+    sum[7]=fa8.sum;
+    sum[8]=fa9.sum;
+    sum[9]=fa10.sum;
+    sum[10]=fa11.sum;        
+    sum[11]=fa12.sum;    
+    sum[12]=fa13.sum;
+    sum[13]=fa14.sum;
+    sum[14]=fa15.sum;
+    sum[15]=fa16.sum;
+    
+    v=((a[15] & x[15] & (~fa16.sum)) | ((~a[15]) & (~x[15]) & fa16.sum));
+    n=fa16.sum;
+    z=~(fa1.sum|fa2.sum|fa3.sum|fa4.sum|fa5.sum|fa6.sum|fa7.sum|fa8.sum|fa9.sum|fa10.sum|fa11.sum|fa12.sum|fa13.sum|fa14.sum|fa15.sum|fa16.sum);
+  }
+}

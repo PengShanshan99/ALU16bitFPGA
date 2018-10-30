@@ -1,0 +1,28 @@
+module mux (
+    input a[16],
+    input b[16],
+    input c[16],
+    input d[16],
+    input alufn0,
+    input alufn1,
+    output out[16]
+  ) {
+
+  always {
+    if(alufn0==0&&alufn1==0){
+      out[15:0]=a[15:0];
+    }
+    if(alufn0==0&&alufn1==1){
+      out[15:0]=b[15:0];
+    }
+    if(alufn0==1&&alufn1==0){
+      out[15:0]=c[15:0];
+    }
+    if(alufn0==1&&alufn1==1){
+      out[15:0]=d[15:0];
+    }
+    else{
+      out[15:0]=0;
+    }
+  }
+}

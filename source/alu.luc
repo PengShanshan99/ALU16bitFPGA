@@ -1,0 +1,71 @@
+// Arithmetic Logic Unit
+// Uses the convention stated in the README to determine
+// which action to perform on the inputs.
+
+module alu (
+    input a[16],
+    input b[16],
+    input alufn[6],
+    output result[16],
+    output v
+  ) {
+
+  // initialize the required modules 
+  comp comp1;  // comparator module 
+  sixtnbitfa sixtnbitfa1; // 8 bit full adder
+  mul mul1; // multiplication module
+  shift shift1; // shifter
+  boolean boolean1; // boolean operations
+  
+  always {
+    // set the inputs to the relevant modules
+    v = sixtnbitfa1.v;
+    
+    sixtnbitfa1.a = a;
+    sixtnbitfa1.b = b;
+    
+    mul1.a = a;
+    mul1.b = b;
+    
+    comp1.v = sixtnbitfa1.v;
+    comp1.n = sixtnbitfa1.n;
+    comp1.z = sixtnbitfa1.z;
+    
+    shift1.a = a;
+    shift1.b = b;
+    
+    boolean1.a = a;
+    boolean1.b = b;
+    
+    sixtnbitfa1.alufn = alufn[0];
+    comp1.alufn[0] = alufn[1];
+    comp1.alufn[1] = alufn[2];
+    
+    shift1.alufn[0] = alufn[0];
+    shift1.alufn[1] = alufn[1];
+    
+    boolean1.alufn[0] = alufn[0];
+    boolean1.alufn[1] = alufn[1];
+    boolean1.alufn[2] = alufn[2];
+    boolean1.alufn[3] = alufn[3];
+    
+    // switch based on the input alufn.
+    case(alufn)
+    {
+      6b000000: result = sixtnbitfa1.sum;
+      6b000001: result = sixtnbitfa1.sum;
+      6b000010: result = mul1.value;     
+      6b011000: result = boolean1.gate;
+      6b011110: result = boolean1.gate;
+      6b010110: result = boolean1.gate;
+      6b011010: result = a;
+      6b100000: result = shift1.shifted;
+      6b100001: result = shift1.shifted;
+      6b100011: result = shift1.shifted;
+      6b110011: result = comp1.compared;
+      6b110101: result = comp1.compared;
+      6b110111: result = comp1.compared;
+      default: result = 0;
+    }   
+  }
+}

@@ -1,0 +1,229 @@
+module mul (
+    input a[16],
+    input b[16],
+    output value[16]
+  ) {
+
+  sig total[16], b_store[16];
+
+  sixtnbitfa fa1;
+  sixtnbitfa fa2;
+  sixtnbitfa fa3;
+  sixtnbitfa fa4;
+  sixtnbitfa fa5;
+  sixtnbitfa fa6;
+  sixtnbitfa fa7;
+  sixtnbitfa fa8;
+  sixtnbitfa fa9;
+  sixtnbitfa fa10;
+  sixtnbitfa fa11;
+  sixtnbitfa fa12;
+  sixtnbitfa fa13;
+  sixtnbitfa fa14;
+  sixtnbitfa fa15;
+  sixtnbitfa fa16;
+
+  always {
+
+    fa1.alufn = 0;
+    fa2.alufn = 0;
+    fa3.alufn = 0;
+    fa4.alufn = 0;
+    fa5.alufn = 0;
+    fa6.alufn = 0;
+    fa7.alufn = 0;
+    fa8.alufn = 0;
+    fa9.alufn = 0;
+    fa10.alufn = 0;
+    fa11.alufn = 0;
+    fa12.alufn = 0;
+    fa13.alufn = 0;
+    fa14.alufn = 0;
+    fa15.alufn = 0;
+    fa16.alufn = 0;
+
+    
+    b_store = b;
+    total = 0;
+    
+
+
+    if (a[0] == 1){
+      fa1.a = total;
+      fa1.b = b_store;
+      total = fa1.sum;
+    } else {
+      fa1.a = total;
+      fa1.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[1] == 1){
+      fa2.a = total;
+      fa2.b = b_store;
+      total = fa2.sum;
+    } else {
+      fa2.a = total;
+      fa2.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[2] == 1){
+      fa3.a = total;
+      fa3.b = b_store;
+      total = fa3.sum;
+    } else {
+      fa3.a = total;
+      fa3.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[3] == 1){
+      fa4.a = total;
+      fa4.b = b_store;
+      total = fa4.sum;
+    } else {
+      fa4.a = total;
+      fa4.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[4] == 1){
+      fa5.a = total;
+      fa5.b = b_store;
+      total = fa5.sum;
+    } else {
+      fa5.a = total;
+      fa5.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[5] == 1){
+      fa6.a = total;
+      fa6.b = b_store;
+      total = fa6.sum;
+    } else {
+      fa6.a = total;
+      fa6.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[6] == 1){
+      fa7.a = total;
+      fa7.b = b_store;
+      total = fa7.sum;
+    } else {
+      fa7.a = total;
+      fa7.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[7] == 1){
+      fa8.a = total;
+      fa8.b = b_store;
+      total = fa8.sum;
+    } else {
+      fa8.a = total;
+      fa8.b = 0;
+    }
+    
+    b_store = b_store << 1;
+
+    if (a[8] == 1){
+      fa9.a = total;
+      fa9.b = b_store;
+      total = fa9.sum;
+    } else {
+      fa9.a = total;
+      fa9.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[9] == 1){
+      fa10.a = total;
+      fa10.b = b_store;
+      total = fa10.sum;
+    } else {
+      fa10.a = total;
+      fa10.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[10] == 1){
+      fa11.a = total;
+      fa11.b = b_store;
+      total = fa11.sum;
+    } else {
+      fa11.a = total;
+      fa11.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[11] == 1){
+      fa12.a = total;
+      fa12.b = b_store;
+      total = fa12.sum;
+    } else {
+      fa12.a = total;
+      fa12.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[12] == 1){
+      fa13.a = total;
+      fa13.b = b_store;
+      total = fa13.sum;
+    } else {
+      fa13.a = total;
+      fa13.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[13] == 1){
+      fa14.a = total;
+      fa14.b = b_store;
+      total = fa14.sum;
+    } else {
+      fa14.a = total;
+      fa14.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[14] == 1){
+      fa15.a = total;
+      fa15.b = b_store;
+      total = fa15.sum;
+    } else {
+      fa15.a = total;
+      fa15.b = 0;
+    }
+    
+    b_store = b_store << 1;
+    
+    if (a[15] == 1){
+      fa16.a = total;
+      fa16.b = b_store;
+      total = fa16.sum;
+    } else {
+      fa16.a = total;
+      fa16.b = 0;
+    }
+    
+    b_store = b_store << 1;
+
+    value = total;
+  }
+}

@@ -1,0 +1,27 @@
+module comp
+(
+input alufn[2],
+input z,
+input v,
+input n,
+
+output compared[16]
+)
+
+{   sig comp;
+	always
+	{
+	case(alufn)
+	{
+	  b01: comp=z;
+	  b10: comp=n^v;
+	  b11: comp=z|(n^v);
+
+	  default: comp=0;
+	}
+
+	compared[15:1]=15b0;
+	compared[0]=comp;
+
+	}
+}

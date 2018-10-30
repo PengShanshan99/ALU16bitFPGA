@@ -1,0 +1,14 @@
+module fa (
+    input a,
+    input b,
+    input c,
+    output sum,
+    output carryout
+    
+  ) {
+  
+  always {
+    sum = a^b^c;
+    carryout = (a&&b)+(c&&(a^b));
+  }
+}

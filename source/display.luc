@@ -1,0 +1,105 @@
+// display module to show the ALU function on the LEDs and testcases in autotest
+module display (
+    input clk,  // clock
+    input rst,
+    input alufn[6],
+    input fromTester[4][8],
+    input anotherMode,
+    output seg[8],
+    output sel[4]
+  ) {
+  
+  .clk(clk), .rst(rst) {
+  counter ctr (#SIZE(2), #DIV(6), #TOP(3));
+ }
+    
+  sig seg_values[4][8], sel_values[4][4];
+  always {
+  
+    sel_values[0] = 4b0111;
+    sel_values[1] = 4b1011;
+    sel_values[2] = 4b1101;
+    sel_values[3] = 4b1110;
+    
+    seg_values[0] = 8hff;
+    seg_values[1] = 8hff;
+    seg_values[2] = 8hff;
+    seg_values[3] = 8hff;
+    
+    if(anotherMode==1){
+      seg_values = fromTester;
+    }else{
+    
+    case(alufn)
+    {
+      6b000000: // add
+        seg_values[0] = 8b10001000;
+        seg_values[1] = 8b10100001;
+        seg_values[2] = 8b10100001;
+
+      
+      6b000001: // sub
+        seg_values[0] = 8b10010010;
+        seg_values[1] = 8b11000001;
+        seg_values[2] = 8b10000011;
+        
+      6b000010: // mul
+        seg_values[0] = 8b11001000;
+        seg_values[1] = 8b11001000;
+        seg_values[2] = 8b11000001;
+        seg_values[3] = 8b11000111;
+        
+      
+           
+      6b011000: // and
+        seg_values[0] = 8b10001000;
+        seg_values[1] = 8b11001000;
+        seg_values[2] = 8b10100001;
+      6b011110: // or
+        seg_values[0] = 8b11000000;
+        seg_values[1] = 8b10101111;
+      6b010110: // xor
+        seg_values[0] = 8b10000110;
+        seg_values[2] = 8b11000000;
+        seg_values[3] = 8b10101111;
+        
+      6b011010: // a
+        seg_values[0] = 8b10001000;
+        
+      6b100000: // shl
+        seg_values[0] = 8b10010010;
+        seg_values[1] = 8b10001001;
+        seg_values[2] = 8b11000111;
+        
+      6b100001: // shr
+        seg_values[0] = 8b10010010;
+        seg_values[1] = 8b10001001;
+        seg_values[2] = 8b10101111;
+        
+      6b100011: // sra
+        seg_values[0] = 8b10010010;
+        seg_values[1] = 8b10101111;
+        seg_values[2] = 8b10001000;
+        
+      6b110011: // com
+        seg_values[0] = 8b11000110;
+        seg_values[1] = 8b11000000;
+        seg_values[2] = 8b11001000;
+        seg_values[3] = 8b11001000;
+        
+      6b110101: // big
+        seg_values[0] = 8b10000011;
+        seg_values[1] = 8b11001111;
+        seg_values[2] = 8b10010000;
+        
+      6b110111: // LESS
+        seg_values[0] = 8b11000111;
+        seg_values[1] = 8b10000110;
+        seg_values[2] = 8b10010010;
+        seg_values[3] = 8b10010010;
+    }  
+    } 
+    seg = seg_values[ctr.value];
+    sel = sel_values[ctr.value]; 
+  }
+}
